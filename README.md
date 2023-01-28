@@ -4,8 +4,9 @@
 ddns的思路就是检测本地的公网ip同步更改域名的a记录
 我使用阿里云的dns服务。使用阿里云dns的api更改并获取最新的a记录信息，使用shell命令获取pppoe最新的公网ip 使得两者保持一致以实现ddns
 
-
 目录结构
+
+```
 ├── DDns
 ├── DDns.go
 ├── api
@@ -25,11 +26,17 @@ ddns的思路就是检测本地的公网ip同步更改域名的a记录
 ├── go.sum
 
 
+```
+
+
+
 DDns.go 为入口文件
 build_linux.sh 为编译linux版本二进制的脚本文件
 dns.json 为所需参数
 
 dns.json 需要的参数如下 带Desc的参数可以去除 是说明用的。dns.json需要和编译后的二进制在同一个目录（也可自行更改源码）
+
+```
 {
   "accessKeyId":"阿里云accessKeyId",
   "accessKeySecret": "阿里云accessKeySecret",
@@ -43,7 +50,16 @@ dns.json 需要的参数如下 带Desc的参数可以去除 是说明用的。dn
   "whileSecond": 180,
   "whileSecondDesc": "设置检测循环的时间，秒为单位，如180则表示 每180秒执行getCurIpCmd设置的命令检测阿里云dns的解析ip是否一致 不一致则重新设置最新的ip"
 }
+```
 
 
 
 
+
+部署：
+
+我的方式是openwrt上直接设置自启动服务 运行go编译好的二进制文件即可。
+
+以下是运行日志截图
+
+![image-20230128182517697](README.assets/image-20230128182517697.png)
